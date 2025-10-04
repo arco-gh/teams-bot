@@ -1,0 +1,14 @@
+{
+  "name": "arco-teams-bot",
+  "version": "1.0.0",
+  "description": "Bot de Teams que llama al backend /chat",
+  "type": "module",
+  "main": "index.js",
+  "scripts": { "start": "node index.js" },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "botbuilder": "^4.22.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}
