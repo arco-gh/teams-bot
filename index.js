@@ -85,10 +85,19 @@ async function onMessage(context) {
     return;
   }
 
-  const answer = result?.answer || 'No encontré información suficiente.';
-  const files = result?.topFiles || [];
-  const card = CardFactory.adaptiveCard(buildAnswerCard({ title: 'ARCO Buddy', answer, files }));
-  await context.sendActivity({ attachments: [card] });
+  // DESPUÉS de llamar al backend:
+  const answer = (result?.answer || '').toString().trim();
+  const files  = Array.isArray(result?.topFiles) ? result.topFiles : [];
+
+  // (debug temporal)
+  console.log('[bot] answerPreview:', answer.slice(0, 160));
+
+  const card = CardFactory.adaptiveCard(buildAnswerCard({
+    title: 'ARCO Buddy',
+    answer,    // <— usar la respuesta del backend
+    files
+  }));
+await context.sendActivity({ attachments: [card] });
 }
 
 app.post('/api/messages', (req, res) => {
@@ -103,4 +112,5 @@ app.post('/api/messages', (req, res) => {
 });
 
 app.get('/', (_req, res) => res.send('Bot OK'));
+
 app.listen(PORT, () => console.log(`Arco Buddy listening on http://localhost:${PORT}`));
